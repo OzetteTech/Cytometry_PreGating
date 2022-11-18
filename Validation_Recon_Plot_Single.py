@@ -15,7 +15,8 @@ def plot_one(gate, x_axis, y_axis, subject):
 
     if x_axis != 'Event_length':
         x_axis = x_axis + '_backup'
-    y_axis = y_axis + '_backup'
+    if y_axis != 'Event_length':
+        y_axis = y_axis + '_backup'
 
     gate_pred = gate + '_pred'
 

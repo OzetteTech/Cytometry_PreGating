@@ -7,15 +7,16 @@ import argparse
 def plot_one(gate1, x_axis1, y_axis1, gate2, x_axis2, y_axis2, subject):
 
     substring = f"./Data_{gate2}/Raw_Numpy/"
-    subj_path = subject.split(substring)[1]
+    subject = subject.split(substring)[1]
     substring = ".npy"
-    subj_path = subj_path.split(substring)[0]
+    subject = subject.split(substring)[0]
 
-    data_table = pd.read_csv(f'./Pred_Results_gate2_cd45/Pred_Results_{subj_path}')
+    data_table = pd.read_csv(f'./Pred_Results_gate2_cd45/Pred_Results_{subject}')
 
     if x_axis1 != 'Event_length':
         x_axis1 = x_axis1 + '_backup'
-    y_axis1 = y_axis1 + '_backup'
+    if y_axis1 != 'Event_length':
+        y_axis1 = y_axis1 + '_backup'
     x_axis2 = x_axis2 + '_backup'
     y_axis2 = y_axis2 + '_backup'
 
@@ -93,7 +94,7 @@ def plot_one(gate1, x_axis1, y_axis1, gate2, x_axis2, y_axis2, subject):
     axs[1, 2].set_title("Reconstructed Gate 2 Filtered by Gate 1 Plot")
     axs[1, 2].set_xlim([0, 10])
 
-    plt.savefig('./Figure_{gate2}/Recon_{subject}.csv')
+    plt.savefig(f'./Figure_{gate2}/Recon_Sequential_{subject}.png')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="cytometry autogating")
@@ -107,11 +108,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     gate1 = args.g1
-    y_axis1 = args.x1
-    x_axis1 = args.y1
+    x_axis1 = args.x1
+    y_axis1 = args.y1
     gate2 = args.g2
-    y_axis2 = args.x2
-    x_axis2 = args.y2
+    x_axis2 = args.x2
+    y_axis2 = args.y2
 
     path_val = pd.read_csv(f"./Data_{gate2}/Train_Test_Val/Val.csv")
     # find path for raw tabular data

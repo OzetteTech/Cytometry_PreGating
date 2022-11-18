@@ -32,13 +32,13 @@ epoches = 20
 ###########################################################
 
 # 1. preprocess data
-if not os.path.exists("./Data"):
+if not os.path.exists(f"./Data_{gate1}"):
     os.mkdir(f"./Data_{gate1}")
     os.mkdir(f"./Data_{gate1}/Mask_Numpy")
     os.mkdir(f"./Data_{gate1}/Mask_PNG")
     os.mkdir(f"./Data_{gate1}/Raw_Numpy")
     os.mkdir(f"./Data_{gate1}/Raw_PNG")
-process_table(x_axis, y_axis, gate1)
+process_table(x_axis1, y_axis1, gate1)
 
 if not os.path.exists(f"./Data_{gate1}/Train_Test_Val"):
     os.mkdir(f"./Data_{gate1}/Train_Test_Val")
@@ -56,13 +56,13 @@ val(x_axis1, y_axis1, gate1, path_raw, n_worker, device, seq = False)
 ###########################################################
 
 # 1. preprocess data
-if not os.path.exists("./Data"):
+if not os.path.exists(f"./Data_{gate2}"):
     os.mkdir(f"./Data_{gate2}")
     os.mkdir(f"./Data_{gate2}/Mask_Numpy")
     os.mkdir(f"./Data_{gate2}/Mask_PNG")
     os.mkdir(f"./Data_{gate2}/Raw_Numpy")
     os.mkdir(f"./Data_{gate2}/Raw_PNG")
-process_table(x_axis1, y_axis1, gate2)
+process_table(x_axis2, y_axis2, gate2)
 
 if not os.path.exists(f"./Data_{gate2}/Train_Test_Val"):
     os.mkdir(f"./Data_{gate2}/Train_Test_Val")
@@ -73,4 +73,4 @@ train(gate2, learning_rate, device, batch_size, epoches, n_worker)
 
 # 3. predict
 path_raw = f'./Pred_Results_{gate1}/Pred_Results_'
-val(x_axis1, y_axis1, gate2, path_raw, n_worker, device, seq = True, gate_pre = gate1)
+val(x_axis2, y_axis2, gate2, path_raw, n_worker, device, seq = True, gate_pre = gate1)
