@@ -12,7 +12,9 @@ Sequential prediction example command:
 python3 Sequential_Gate.py --g1 gate1_ir --x1 Ir191Di___191Ir_DNA1 --y1 Event_length --g2 gate2_cd45 --x2 Ir193Di___193Ir_DNA2 --y2 Y89Di___89Y_CD45 --d mps
 
 3. To visualize the segmentation of the singlets in the data, we provide a Validation_Recon_Plot.py to reconstruct the predicted label for each cell to a binary map.
+
 Single reconstruction prediction exmaple command:
 python3 Validation_Recon_Plot_Single.py --g gate2_cd45 --x Ir193Di___193Ir_DNA2 --y Y89Di___89Y_CD45
+
 Sequential reconstruction prediction exmaple command:
 python3 Validation_Recon_Plot_Sequential.py --g1 gate1_ir --x1 Ir191Di___191Ir_DNA1 --y1 Event_length --g2 gate2_cd45 --x2 Ir193Di___193Ir_DNA2 --y2 Y89Di___89Y_CD45
