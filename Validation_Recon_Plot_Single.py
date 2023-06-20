@@ -11,7 +11,7 @@ def plot_one(gate, x_axis, y_axis, subject):
     substring = ".npy"
     subject = subject.split(substring)[0]
 
-    data_table = pd.read_csv(f'./Pred_Results_gate2_cd45/Pred_Results_{subject}')
+    data_table = pd.read_csv(f'./Pred_Results_{gate}/Pred_Results_{subject}')
 
     if x_axis != 'Event_length':
         x_axis = x_axis + '_backup'
