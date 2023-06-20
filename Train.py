@@ -10,6 +10,7 @@ import torch.nn as nn
 import torch.optim as optim
 from UNet_Model import UNET
 from Utils_Train import *
+import argparse
 
 def train(gate, learning_rate, device, batch_size, epoches, n_worker):
   # process data
@@ -55,13 +56,19 @@ def train(gate, learning_rate, device, batch_size, epoches, n_worker):
   testing_plot(accuracy_list, dice_score_list, gate)
 
 if __name__ == "__main__":
+  parser = argparse.ArgumentParser(
+    prog="train",
+    description="cytometry autogating"
+  )
+  parser.add_argument("--g", default='gate2_cd45', help = 'gate')
+  parser.add_argument("--d", default='cuda', help = 'device')
+  args = parser.parse_args()
+  gate = args.g
+  device = args.d
 
-  gate = 'gate2_cd45'
 
   # hyperparameters
   learning_rate = 1e-4
-  # device = "cuda" if torch.cuda.is_available() else "cpu"
-  device = "mps"
   batch_size = 8
   epoches = 20
   n_worker = 0

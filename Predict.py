@@ -6,6 +6,7 @@ from UNet_Model import UNET
 from Dataset import dataset
 from Utils_Predict import *
 from Utils_Train import predict_visualization
+import argparse
 
 
 def val(x_axis, y_axis, gate, path_raw, num_workers, device, seq = False, gate_pre = None):
@@ -25,7 +26,7 @@ def val(x_axis, y_axis, gate, path_raw, num_workers, device, seq = False, gate_p
   val_ds = dataset(path_val, test_transforms)
   val_loader = DataLoader(val_ds, batch_size = path_val.shape[0], num_workers = num_workers, pin_memory = True)
 
-  val_list, y_val_list, x_list, subj_list = predict_visualization(val_loader, model)
+  val_list, y_val_list, x_list, subj_list = predict_visualization(val_loader, model, device=device)
 
   val_df = pd.DataFrame(columns=['Subject', 'Accuracy', 'Recall', 'F1 Score'])
   if not os.path.exists(f"./Pred_Results_{gate}"):
@@ -43,12 +44,20 @@ def val(x_axis, y_axis, gate, path_raw, num_workers, device, seq = False, gate_p
   val_df.to_csv(os.path.join(f"./Figure_{gate}/Val_df.csv"))
 
 if __name__ == "__main__":
+  parser = argparse.ArgumentParser(
+    prog="test",
+    description="cytometry autogating"
+  )
+  parser.add_argument("--g", default='gate2_cd45', help = 'gate')
+  parser.add_argument("--x", default='Ir193Di___193Ir_DNA2', help = 'x axis measurement') 
+  parser.add_argument("--y", default='Y89Di___89Y_CD45', help = 'y axis measurement')
+  parser.add_argument("--d", default='cuda', help = 'device')
+  args = parser.parse_args()
+  gate = args.g
+  y_axis = args.x
+  x_axis = args.y
+  device = args.d
 
-  y_axis = 'Ir193Di___193Ir_DNA2' # x axis in plot
-  x_axis = 'Y89Di___89Y_CD45' # y axis in plot  
-  gate = 'gate2_cd45'
-
-  device = "mps"
   n_worker = 0
 
   path_raw = './Raw_Data/'

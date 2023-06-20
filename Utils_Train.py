@@ -24,7 +24,7 @@ def train_epoch(loader, model, optimizer, loss_fn, device):
   # loop = tqdm(loader)
   for batch_idx, (data, target, subj) in enumerate(loader):
     data = data.type(torch.float32)
-    data = data.to(device = 'mps')
+    data = data.to(device = device)
     targets = target.float().unsqueeze(1).to(device = device)
 
     #forward

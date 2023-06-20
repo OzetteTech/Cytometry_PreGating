@@ -4,6 +4,7 @@ import pandas as pd
 import random
 import matplotlib.pyplot as plt
 import seaborn as sn
+import argparse
 
 def normalize(data, column):
     df_normalize = data[column]
@@ -97,8 +98,8 @@ def train_test_val_split(gate):
     random.shuffle(idx_list)
 
     #set the number of train test validate
-    train_test_number = num_sample - 9
-    train_number = int(train_test_number /5 *4)
+    train_number = num_sample * 2 // 3
+    train_test_number = train_number + 1
 
     train_idx = idx_list[:train_number]
     test_idx = idx_list[train_number:train_test_number]
@@ -113,12 +114,17 @@ def train_test_val_split(gate):
     path_val.to_csv(f"./Data_{gate}/Train_Test_Val/Val.csv", index=False)
 
 if __name__ == "__main__":
-
-    y_axis = 'Ir193Di___193Ir_DNA2' # x axis in plot
-    x_axis = 'Y89Di___89Y_CD45' # y axis in plot  
-    gate = 'gate2_cd45'
-
-    # root = '/Users/kylee_cj/Dropbox/UPenn/CBICA/Code/2022_10_3_Cytometry_Gating_Software_gate2/'
+    parser = argparse.ArgumentParser(
+        prog="preprocessing",
+        description="cytometry autogating"
+    )
+    parser.add_argument("--g", default='gate2_cd45', help = 'gate')
+    parser.add_argument("--x", default='Ir193Di___193Ir_DNA2', help = 'x axis measurement') 
+    parser.add_argument("--y", default='Y89Di___89Y_CD45', help = 'y axis measurement')
+    args = parser.parse_args()
+    gate = args.g
+    y_axis = args.x
+    x_axis = args.y
 
     if not os.path.exists("./Data"):
         os.mkdir(f"./Data_{gate}")
@@ -130,4 +136,4 @@ if __name__ == "__main__":
 
     if not os.path.exists(f"./Data_{gate}/Train_Test_Val"):
         os.mkdir(f"./Data_{gate}/Train_Test_Val")
-    train_test_val_split()
+    train_test_val_split(gate)
