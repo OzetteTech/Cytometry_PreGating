@@ -36,7 +36,10 @@ def matrix_plot(data_df_selected, x_axis, y_axis, pad_number = 100):
 def export_matrix(file_name, x_axis, y_axis, gate):
     data_df = pd.read_csv(os.path.join("./Raw_Data/", file_name))
 
-    data_df_selected = data_df[[x_axis, y_axis, gate]]
+    cols = list(data_df)
+
+    # data_df_selected = data_df[[x_axis, y_axis, gate]]
+    data_df_selected = data_df[[x_axis, y_axis, cols[-1]]]
     if x_axis != "Event_length":
         data_df_selected[x_axis] = normalize(data_df_selected, x_axis)
         data_df_selected[x_axis] = data_df_selected[x_axis]*100
@@ -51,7 +54,8 @@ def export_matrix(file_name, x_axis, y_axis, gate):
     plt.close()
     
     # data_df_masked_1 = data_df[data_df.gate1_ir==1]
-    data_df_masked_2 = data_df_selected[data_df_selected[gate]==1]
+    # data_df_masked_2 = data_df_selected[data_df_selected[gate]==1]
+    data_df_masked_2 = data_df_selected[data_df_selected[cols[-1]]==1]
     df_plot = matrix_plot(data_df_masked_2, x_axis, y_axis, 0)
     df_plot = df_plot.applymap(lambda x: 1 if x != 0 else 0)
     sn.heatmap(df_plot, vmax = df_plot.max().max())

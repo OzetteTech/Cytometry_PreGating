@@ -37,7 +37,8 @@ def get_pred_label(data_df, x_axis, y_axis, mask, gate):
         pred_label_list.append(0)
         continue
       pred_label = int(df_plot.loc[str(a), str(b)])
-      true_label = data_df_selected.loc[i, gate]
+      # true_label = data_df_selected.loc[i, gate]
+      true_label = data_df_selected.loc[i, list(data_df_selected)[-1]]
       pred_label_list.append(pred_label)
     data_df_selected[gate_pred] = pred_label_list
 
@@ -91,9 +92,12 @@ def mask_to_gate(y_list, pred_list, x_list, subj_list, x_axis, y_axis, gate, pat
 
 def evaluation(data_df_pred, gate):
 
-    accuracy = accuracy_score(data_df_pred[gate], data_df_pred[gate+'_pred'])
-    recall = recall_score(data_df_pred[gate], data_df_pred[gate+'_pred'])
-    f1 = f1_score(data_df_pred[gate], data_df_pred[gate+'_pred'])
+    # accuracy = accuracy_score(data_df_pred[gate], data_df_pred[gate+'_pred'])
+    accuracy = accuracy_score(data_df_pred[list(data_df_pred)[-1]], data_df_pred[gate+'_pred'])
+    # recall = recall_score(data_df_pred[gate], data_df_pred[gate+'_pred'])
+    recall = recall_score(data_df_pred[list(data_df_pred)[-1]], data_df_pred[gate+'_pred'])
+    # f1 = f1_score(data_df_pred[gate], data_df_pred[gate+'_pred'])
+    f1 = f1_score(data_df_pred[list(data_df_pred)[-1]], data_df_pred[gate+'_pred'])
 
     return accuracy, recall, f1
 
